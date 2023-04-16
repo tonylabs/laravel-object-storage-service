@@ -9,7 +9,7 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem;
 
-class OssProvider extends ServiceProvider
+class OssServiceProvider extends ServiceProvider
 {
     /**
      * @return void
