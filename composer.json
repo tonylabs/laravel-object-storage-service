@@ -1,0 +1,42 @@
+{
+    "name": "tonylabs/laravel-object-storage-service",
+    "description": "AliCloud Object Storage Service package for Laravel framework",
+    "keywords": [
+        "aliyun",
+        "oss",
+        "filesystem",
+        "laravel",
+        "storage"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TONY WANG",
+            "email": "tony.wang@tonylabs.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "league/flysystem": "^3.14",
+        "aliyuncs/oss-sdk-php": "^2.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "TONYLABS\\ObjectStorageService\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TONYLABS\\ObjectStorageService\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always --testdox"
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests."
+    }
+}
