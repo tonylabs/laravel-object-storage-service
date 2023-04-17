@@ -34,6 +34,13 @@
             "TONYLABS\\ObjectStorageService\\Tests\\": "tests/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TONYLABS\\ObjectStorageService\\OssServiceProvider"
+            ]
+        }
+    },
     "scripts": {
         "test": "vendor/bin/phpunit --colors=always --testdox"
     },
