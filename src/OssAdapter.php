@@ -44,7 +44,7 @@ class OssAdapter implements FilesystemAdapter
     /**
      * @var Url
      */
-    protected Url $url;
+    protected OssUrl $url;
 
     /**
      * @var array
@@ -64,7 +64,7 @@ class OssAdapter implements FilesystemAdapter
         $this->prefixer = new PathPrefixer($prefix);
         $this->config = $config;
         $this->visibility = new Visibility();
-        $this->url = new Url($config);
+        $this->url = new OssUrl($config);
     }
 
     /**
