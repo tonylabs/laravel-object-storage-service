@@ -15,21 +15,20 @@ class OssServiceProvider extends ServiceProvider
      * @return void
      * @throws BindingResolutionException
      */
-    public function register()
+    public function register(): void
     {
-        $this->mergeOssConfig();
+        $this->config();
     }
 
     /**
      * @return void
      * @throws BindingResolutionException
      */
-    protected function mergeOssConfig()
+    protected function config(): void
     {
         if ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached()) {
             return;
         }
-
         #only if oss driver defined in filesystems config file
         $config = $this->app->make('config');
         $disks = $config->get('filesystems.disks', []);
@@ -37,9 +36,8 @@ class OssServiceProvider extends ServiceProvider
         if (in_array('oss', $drivers)) {
             return;
         }
-
         $config->set('filesystems.disks.oss', array_merge(
-            require __DIR__ . "/../config/config.php",
+            require __DIR__ . '/../config/config.php',
             $config->get('filesystems.disks.oss', [])
         ));
     }
@@ -48,7 +46,7 @@ class OssServiceProvider extends ServiceProvider
      * @return void
      * @throws BindingResolutionException
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->make('filesystem')->extend('oss', function (Application $app, array $config) {
             $objClient = $app->make(OssFactory::class)->createClient($config);
