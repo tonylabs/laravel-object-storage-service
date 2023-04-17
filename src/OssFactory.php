@@ -40,7 +40,7 @@ class OssFactory
         $endpoint = (new OssUrl($config))->getEndpoint();
         $client = new OssClient($config['access_key_id'], $config['access_key_secret'], $endpoint);
         !empty($config['ssl']) && $client->setUseSSL($config['ssl']);
-        !empty($config['retries']) && $client->setMaxTries($config['max_retries']);
+        !empty($config['retries']) && $client->setMaxTries($config['retries']);
         !empty($config['timeout']) && $client->setTimeout($config['timeout']);
         !empty($config['connect_timeout']) && $client->setConnectTimeout($config['connect_timeout']);
         return $client;
