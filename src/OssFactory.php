@@ -3,6 +3,7 @@
 namespace TONYLABS\ObjectStorageService;
 
 use League\Flysystem\Filesystem;
+use OSS\Core\OssException;
 use OSS\OssClient;
 
 class OssFactory
@@ -10,18 +11,20 @@ class OssFactory
     /**
      * @param array $config
      * @param OssClient|null $client
-     * @return Adapter
+     * @return OssAdapter
+     * @throws OssException
      */
     public function createAdapter(array $config, OssClient $client = null): OssAdapter
     {
         is_null($client) && $client = $this->createClient($config);
-        return new Adapter($client, $config["bucket"], $config["prefix"] ?? "", $config);
+        return new OssAdapter($client, $config['bucket'], $config['prefix'] ?? '', $config);
     }
 
     /**
      * @param array $config
      * @param OssClient|null $client
      * @return Filesystem
+     * @throws OssException
      */
     public function createFilesystem(array $config, OssClient $client = null): Filesystem
     {
@@ -31,18 +34,15 @@ class OssFactory
     /**
      * @param array $config
      * @return OssClient
-     * @throws \OSS\Core\OssException
      */
     public function createClient(array $config): OssClient
     {
-        $endpoint = (new Url($config))->getEndpoint();
-        $client = new OssClient($config['access_key_id'], $config['access_key_secret'], $endpoint, $config["is_cname"] ?? false, $config["security_token"] ?? null, $config["request_proxy"] ?? null);
-
-        isset($config["use_ssl"]) && !is_null($config["use_ssl"]) && $client->setUseSSL($config["use_ssl"]);
-        isset($config["max_retries"]) && !is_null($config["max_retries"]) && $client->setMaxTries($config["max_retries"]);
-        isset($config["enable_sts_in_url"]) && !is_null($config["enable_sts_in_url"]) && $client->setSignStsInUrl($config["enable_sts_in_url"]);
-        isset($config["timeout"]) && !is_null($config["timeout"]) && $client->setTimeout($config["timeout"]);
-        isset($config["connect_timeout"]) && !is_null($config["connect_timeout"]) && $client->setConnectTimeout($config["connect_timeout"]);
+        $endpoint = (new OssUrl($config))->getEndpoint();
+        $client = new OssClient($config['access_key_id'], $config['access_key_secret'], $endpoint);
+        !empty($config['ssl']) && $client->setUseSSL($config['ssl']);
+        !empty($config['retries']) && $client->setMaxTries($config['max_retries']);
+        !empty($config['timeout']) && $client->setTimeout($config['timeout']);
+        !empty($config['connect_timeout']) && $client->setConnectTimeout($config['connect_timeout']);
         return $client;
     }
 }
