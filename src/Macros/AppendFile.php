@@ -3,8 +3,8 @@
 namespace TONYLABS\ObjectStorageService\Macros;
 
 use Closure;
-use Illuminate\Filesystem\FilesystemAdapter;
 use OSS\Core\OssException;
+use Illuminate\Filesystem\FilesystemAdapter;
 use TONYLABS\ObjectStorageService\OssAdapter;
 use TONYLABS\ObjectStorageService\OssException AS OssExceptionAlias;
 
