@@ -37,12 +37,12 @@ class OssAdapter implements FilesystemAdapter
     protected PathPrefixer $prefixer;
 
     /**
-     * @var Visibility
+     * @var OssVisibility
      */
-    protected Visibility $visibility;
+    protected OssVisibility $visibility;
 
     /**
-     * @var Url
+     * @var OssUrl
      */
     protected OssUrl $url;
 
@@ -59,12 +59,12 @@ class OssAdapter implements FilesystemAdapter
      */
     public function __construct(OssClient $client, string $bucket, string $prefix = '', array $config = [])
     {
-        $this->client = $client;
         $this->bucket = $bucket;
-        $this->prefixer = new PathPrefixer($prefix);
+        $this->client = $client;
         $this->config = $config;
-        $this->visibility = new Visibility();
+        $this->prefixer = new PathPrefixer($prefix);
         $this->url = new OssUrl($config);
+        $this->visibility = new OssVisibility();
     }
 
     /**

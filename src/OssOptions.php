@@ -2,8 +2,8 @@
 
 namespace TONYLABS\ObjectStorageService;
 
-use League\Flysystem\Config;
 use OSS\OssClient;
+use League\Flysystem\Config;
 
 class OssOptions
 {
@@ -38,23 +38,17 @@ class OssOptions
         return $this;
     }
 
-    /**
-     * @param Config $config
-     * @return array
-     */
-    public function mergeConfig(Config $config, VisibilityConverter $visibilityConverter = null): array
+    public function mergeConfig(Config $config, OssVisibility $ossVisibility = null): array
     {
-        $options = $config->get("options", []);
-
-        if ($headers = $config->get("headers")) {
+        $options = $config->get('options', []);
+        if ($headers = $config->get('headers')) {
             $options[OssClient::OSS_HEADERS] = isset($options[OssClient::OSS_HEADERS]) ? array_merge($options[OssClient::OSS_HEADERS], $headers) : $headers;
         }
-
-        if ($visibility = $config->get("visibility")) {
-            is_null($visibilityConverter) && $visibilityConverter = new VisibilityConverter();
-            $options[OssClient::OSS_HEADERS][OssClient::OSS_OBJECT_ACL] = $visibilityConverter->visibilityToAcl($visibility);
+        if ($visibility = $config->get('visibility'))
+        {
+            is_null($ossVisibility) && $ossVisibility = new OssVisibility();
+            $options[OssClient::OSS_HEADERS][OssClient::OSS_OBJECT_ACL] = $ossVisibility->visibilityToAcl($visibility);
         }
-
         return array_merge_recursive($this->options, $options);
     }
 }
